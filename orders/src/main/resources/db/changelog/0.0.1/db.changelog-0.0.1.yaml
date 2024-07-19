@@ -1,0 +1,39 @@
+databaseChangeLog:
+  - changeSet:
+      id: database_create
+      author: Zhelagin Egor
+      changes:
+        - createTable:
+            tableName: orders
+            columns:
+              - column:
+                  name: id
+                  type: int4
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: number
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+
+        - createTable:
+            tableName: items
+            columns:
+              - column:
+                  name: id
+                  type: int4
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+
+        - addForeignKeyConstraint:
+            constraintName: foreign_key_item
+            baseTableName: orders
+            baseColumnNames: item_id
+            referencedTableName: items
+            referencedColumnNames: id
