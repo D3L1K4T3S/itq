@@ -1,0 +1,75 @@
+openapi: "3.0.2"
+info:
+  title: Orders Service API
+  version: "1.0"
+servers:
+  - url: https://localhost:80/v1/
+
+components:
+  schemas:
+    Error:
+      description: "Ошибка"
+      type: object
+      properties:
+        error:
+          type: string
+
+    order:
+      description: "Заказ"
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          description: "id Заказа в БД"
+          type: integer
+        number:
+          description: "Номер заказа"
+          type: string
+        sum:
+          description: "Сумма заказа"
+          type: integer
+        scale:
+          description: "Масштаб суммы"
+          type: integer
+        orderDate:
+          description: "Дата создания заказа. Например: 2017-07-21"
+          type: string
+          format: date
+        recipient:
+          description: "Информация о получателе"
+          type: string
+        address:
+          description: "Информации об адресе доставки"
+          type: string
+        payment:
+          description: "Тип оплаты"
+          type: string
+        delivery:
+          description: "Тип доставки"
+          type: string
+
+paths:
+  /:
+    get:
+      description: "Проверка работы сервиса number_generated"
+      responses:
+        200:
+          description: "Код получен"
+
+  /{order_id}:
+    get:
+      description: "Получение ордера по Id"
+      responses:
+        200:
+          description: "Информация о заказе"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/order"
+        404:
+          description: "С таким id ордера не существует"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
