@@ -4,5 +4,5 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public interface SchedulerService {
-    void addTasksToDeleteAfterTime(List<Runnable> tasks, long delay, TimeUnit timeUnit);
+    void addTasksToDeleteAfterTime(Runnable task, long delay, TimeUnit timeUnit);
 }

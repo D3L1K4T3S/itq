@@ -13,9 +13,7 @@ public class SchedulerServiceImpl implements SchedulerService {
     private final Integer corePoolSize = 1;
 
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(corePoolSize);
-    public void addTasksToDeleteAfterTime(List<Runnable> tasks, long delay, TimeUnit timeUnit) {
-        for (Runnable task : tasks) {
+    public void addTasksToDeleteAfterTime(Runnable task, long delay, TimeUnit timeUnit) {
             scheduler.schedule(task, delay, timeUnit);
-        }
     }
 }
