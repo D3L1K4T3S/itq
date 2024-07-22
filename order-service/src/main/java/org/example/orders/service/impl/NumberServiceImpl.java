@@ -9,6 +9,7 @@ public class NumberServiceImpl implements NumberService {
 
     private final RestClient restClient;
 
+
     private final static String URL = "http://localhost:9090/number";
 
     public NumberServiceImpl(RestClient restClient) {
