@@ -2,19 +2,20 @@ package org.example.orders.service.impl;
 
 import org.example.orders.service.NumberService;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.RestClient;
 
 @Service
 public class NumberServiceImpl implements NumberService {
 
-    private final RestTemplate restTemplate;
+    private final RestClient restClient;
+
     private final static String URL = "http://localhost:9090/number";
 
-    public NumberServiceImpl(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
+    public NumberServiceImpl(RestClient restClient) {
+        this.restClient = restClient;
     }
 
     public String getNumber(){
-        return restTemplate.getForObject(URL, String.class);
+        return restClient.get().uri(URL).retrieve().toEntity(String.class).getBody();
     }
 }

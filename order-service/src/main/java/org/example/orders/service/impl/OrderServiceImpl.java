@@ -4,7 +4,8 @@ import org.example.orders.exceptions.NoUniqueNumbersLeftException;
 import org.example.orders.exceptions.NotValidOrderException;
 import org.example.orders.exceptions.NotValidParametersException;
 import org.example.orders.models.dto.request.CreateOrderRequest;
-import org.example.orders.models.dto.request.OrderRequest;
+import org.example.orders.models.dto.request.GetOrdersRequest;
+import org.example.orders.models.dto.response.ListOrdersResponse;
 import org.example.orders.models.dto.response.OrderResponse;
 import org.example.orders.models.entity.base.BaseOrderEntity;
 import org.example.orders.repository.OrderRepository;
@@ -37,13 +38,13 @@ public class OrderServiceImpl implements OrderService {
         this.dateParse = dateParse;
     }
 
-    public void createOrder(CreateOrderRequest createOrderRequest) throws NotValidOrderException, NoUniqueNumbersLeftException {
+    public void create(CreateOrderRequest createOrderRequest) throws NotValidOrderException, NoUniqueNumbersLeftException {
         if (!validator.isValidCreateOrderRequest(createOrderRequest)){
             throw new NotValidOrderException("Invalid create order request");
         }
         String number = numberService.getNumber();
-        if (isNotValidNumber(number)){
-            throw new NoUniqueNumbersLeftException("No unique numbers left");
+        if (isError(number)){
+            throw new NoUniqueNumbersLeftException(numberService.ERROR);
         }
         orderRepository.saveOrder(
                 createOrderRequest.getSum(),
@@ -69,23 +70,11 @@ public class OrderServiceImpl implements OrderService {
         throw new NotValidOrderException("Order not found");
     }
 
-    public List<OrderResponse> getOrders(String orderDate, Long sum, Long scale){
-        if (validator.isValidScale(scale) && validator.isValidSum(sum) && validator.isValidDate(orderDate)){
-            Date date = dateParse.getDateFromString(orderDate);
-            Optional<List<BaseOrderEntity>> optionalOrders = orderRepository.getOrderByDateAndSum("orders", date, sum, scale);
-            if (optionalOrders.isPresent()){
-                List<BaseOrderEntity> orders= optionalOrders.get();
-
-            }
-        }
-        throw new NotValidParametersException("parameters not valid");
+    public ListOrdersResponse get(GetOrdersRequest getOrdersRequest){
+        throw new NotValidParametersException("Parameters is not valid");
     }
 
-    public List<OrderResponse> getOrdersWithoutOrder(Date orderDate, OrderRequest orderRequest) {
-        return null;
-    }
-
-    private Boolean isNotValidNumber(String number){
-        return number.equals("1");
+    private Boolean isError(String message){
+        return message.equals(numberService.ERROR);
     }
 }

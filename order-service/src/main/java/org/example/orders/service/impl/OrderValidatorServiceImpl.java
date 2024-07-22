@@ -1,7 +1,6 @@
 package org.example.orders.service.impl;
 
 import org.example.orders.models.dto.request.CreateOrderRequest;
-import org.example.orders.models.dto.request.OrderRequest;
 import org.example.orders.repository.ItemRepository;
 import org.example.orders.service.OrderValidatorService;
 import org.springframework.stereotype.Service;
@@ -30,7 +29,7 @@ public class OrderValidatorServiceImpl implements OrderValidatorService {
 
 
 
-    public Boolean isValidOrderRequest(OrderRequest orderRequest){
+    public Boolean isValidOrderRequest(GetWithoutOrderRequest orderRequest){
         return true;
     }
 
