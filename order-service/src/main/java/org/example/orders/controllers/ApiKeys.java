@@ -1,7 +1,7 @@
 package org.example.orders.controllers;
 
 public class ApiKeys {
-    public static final String V1 = "V1";
+    public static final String V1 = "v1";
 
     public static final String ORDERS = V1 + "/orders";
 

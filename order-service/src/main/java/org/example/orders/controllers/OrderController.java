@@ -25,6 +25,12 @@ public class OrderController {
         this.numberService = numberService;
     }
 
+    @GetMapping("/")
+    public ResponseEntity<String> g() {
+        String response = numberService.getNumber();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @GetMapping(ApiKeys.PATH_ID)
     public ResponseEntity<OrderResponse> getById(@Parameter(name = "id", required = true)  @PathVariable("id") Long id) {
         OrderResponse response = orderService.getById(id);
