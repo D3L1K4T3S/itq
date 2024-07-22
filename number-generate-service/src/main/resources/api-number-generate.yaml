@@ -1,0 +1,42 @@
+openapi: "3.0.2"
+info:
+  title: Orders Service API
+  version: "1.0"
+servers:
+  - url: https://localhost:9090/v1/numbers/
+
+components:
+  schemas:
+    Error:
+      description: "Error when no left number"
+      type: object
+      properties:
+        error:
+          type: string
+    Number:
+      description: "Get valid number"
+      type: object
+      properties:
+        number:
+          description: "Valid number"
+          type: string
+
+
+paths:
+  /number:
+    get:
+      description: "Get a number for order"
+      responses:
+        200:
+          description: "Valid number"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Number"
+
+        500:
+          description: "Error when no left number"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
