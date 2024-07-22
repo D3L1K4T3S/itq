@@ -8,9 +8,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping(ApiKeys.NUMBERS)
 public class GeneratorNumberController {
 
     private final GeneratorNumberService generatorNumberService;
@@ -20,7 +22,7 @@ public class GeneratorNumberController {
         this.generatorNumberService = generatorNumberService;
     }
 
-    @GetMapping("/number")
+    @GetMapping(ApiKeys.PATH_GENERATE)
     public ResponseEntity<String> getNumber() {
         log.info("Get request for create a new number");
         NumberResponse numberResponse = generatorNumberService.generate();

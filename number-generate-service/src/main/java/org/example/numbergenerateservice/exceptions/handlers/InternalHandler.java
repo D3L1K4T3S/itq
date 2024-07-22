@@ -11,6 +11,6 @@ public class InternalHandler {
 
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<ErrorResponse> handle() {
-        return new ResponseEntity<>(new ErrorResponse("Internal error server"), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new ErrorResponse("Internal error server"), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
