@@ -3,7 +3,6 @@ package org.example.numbergenerateservice.service.impl;
 import org.example.numbergenerateservice.service.SchedulerService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
