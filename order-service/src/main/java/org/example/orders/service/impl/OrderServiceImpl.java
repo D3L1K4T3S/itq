@@ -12,11 +12,8 @@ import org.example.orders.repository.OrderRepository;
 import org.example.orders.service.NumberService;
 import org.example.orders.service.OrderService;
 import org.example.orders.service.OrderValidatorService;
-import org.example.orders.utils.DateParse;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,17 +22,14 @@ public class OrderServiceImpl implements OrderService {
     private final NumberService numberService;
     private final OrderValidatorService validator;
     private final OrderRepository orderRepository;
-    private final DateParse dateParse;
 
     public OrderServiceImpl(NumberService numberService,
                             OrderValidatorService orderValidatorService,
-                            OrderRepository orderRepository,
-                            DateParse dateParse
+                            OrderRepository orderRepository
     ) {
         this.numberService = numberService;
         this.validator = orderValidatorService;
         this.orderRepository = orderRepository;
-        this.dateParse = dateParse;
     }
 
     public void create(CreateOrderRequest createOrderRequest) throws NotValidOrderException, NoUniqueNumbersLeftException {
@@ -58,7 +52,7 @@ public class OrderServiceImpl implements OrderService {
         );
     }
 
-    public OrderResponse getOrderById(Long id){
+    public OrderResponse getById(Long id){
         Optional<BaseOrderEntity> optionalOrderEntity = orderRepository.getOrderById("orders", id);
         if (optionalOrderEntity.isPresent()){
             BaseOrderEntity orderEntity = optionalOrderEntity.get();

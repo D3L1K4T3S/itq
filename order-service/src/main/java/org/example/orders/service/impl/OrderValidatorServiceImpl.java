@@ -1,6 +1,7 @@
 package org.example.orders.service.impl;
 
 import org.example.orders.models.dto.request.CreateOrderRequest;
+import org.example.orders.models.dto.request.GetOrdersRequest;
 import org.example.orders.repository.ItemRepository;
 import org.example.orders.service.OrderValidatorService;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,7 @@ import java.time.format.DateTimeParseException;
 @Service
 public class OrderValidatorServiceImpl implements OrderValidatorService {
 
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-mm-dd");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     private final ItemRepository itemRepository;
 
@@ -29,7 +30,7 @@ public class OrderValidatorServiceImpl implements OrderValidatorService {
 
 
 
-    public Boolean isValidOrderRequest(GetWithoutOrderRequest orderRequest){
+    public Boolean isValidGetOrdersRequest(GetOrdersRequest getOrdersRequest){
         return true;
     }
 

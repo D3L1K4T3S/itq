@@ -26,23 +26,20 @@ public class OrderController {
     }
 
     @GetMapping(ApiKeys.PATH_ID)
-    public ResponseEntity<OrderResponse> getById(
-            @Parameter(name = "id", required = true)
-            @PathVariable("id") Long id)
-    {
-        OrderResponse orderResponse = orderService.getOrderById(id);
-        return new ResponseEntity<>(orderResponse, HttpStatus.OK);
+    public ResponseEntity<OrderResponse> getById(@Parameter(name = "id", required = true)  @PathVariable("id") Long id) {
+        OrderResponse response = orderService.getById(id);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping(ApiKeys.PATH_CREATE)
     public ResponseEntity<Void> create(@RequestBody CreateOrderRequest createOrderRequest) {
-        orderService.createOrder(createOrderRequest);
+        orderService.create(createOrderRequest);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping(ApiKeys.PATH_GET)
     public ResponseEntity<ListOrdersResponse> get(@RequestBody GetOrdersRequest getOrdersRequest) {
-        List<OrderResponse> orders = orderService.getOrders(getOrdersRequest);
-        return new ResponseEntity<>(orders, HttpStatus.OK);
+        ListOrdersResponse response = orderService.get(getOrdersRequest);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
