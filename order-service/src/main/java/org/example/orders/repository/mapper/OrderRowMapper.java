@@ -1,26 +1,27 @@
 package org.example.orders.repository.mapper;
 
 import org.example.orders.models.entity.OrderEntity;
-import org.example.orders.models.entity.base.BaseOrderEntity;
+import org.example.orders.models.enums.TypeDelivery;
+import org.example.orders.models.enums.TypePayment;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class OrderRowMapper implements RowMapper<BaseOrderEntity> {
+public class OrderRowMapper implements RowMapper<OrderEntity> {
 
     @Override
     public OrderEntity mapRow(ResultSet resultSet, int rowNum) throws SQLException {
-        return new OrderEntity(
-                resultSet.getLong("id"),
-                resultSet.getString("number"),
-                resultSet.getLong("sum"),
-                resultSet.getLong("scale"),
-                resultSet.getDate("createDate"),
-                resultSet.getString("recipient"),
-                resultSet.getString("address"),
-                resultSet.getString("payment"),
-                resultSet.getString("delivery")
-        );
+        OrderEntity entity = new OrderEntity();
+        entity.setId(resultSet.getLong("id"));
+        entity.setNumber(resultSet.getString("number"));
+        entity.setSum(resultSet.getLong("sum"));
+        entity.setScale(resultSet.getLong("scale"));
+        entity.setOrderDate(resultSet.getDate("creation_date"));
+        entity.setRecipient(resultSet.getString("recipient"));
+        entity.setAddress(resultSet.getString("address"));
+        entity.setPayment(TypePayment.valueOf(resultSet.getString("payment")));
+        entity.setDelivery(TypeDelivery.valueOf(resultSet.getString("delivery")));
+        return entity;
     }
 }

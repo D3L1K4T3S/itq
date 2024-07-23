@@ -1,6 +1,7 @@
 package org.example.orders.service.impl;
 
 import io.micrometer.common.util.internal.logging.Slf4JLoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.example.orders.exceptions.NoUniqueNumbersLeftException;
 import org.example.orders.service.NumberService;
 import org.slf4j.Logger;
@@ -10,10 +11,10 @@ import org.springframework.web.client.RestClient;
 
 
 @Service
+@Slf4j
 public class NumberServiceImpl implements NumberService {
 
     private final RestClient restClient;
-    private final static Logger log = LoggerFactory.getLogger(Slf4JLoggerFactory.class);
 
     private final static String URL = "http://localhost:9090/v1/numbers/number";
 
@@ -26,7 +27,7 @@ public class NumberServiceImpl implements NumberService {
         try{
             return restClient.get().uri(URL).retrieve().toEntity(String.class).getBody();
         } catch (RuntimeException exception) {
-            log.error(exception.getMessage());
+            log.error("Can't get number");
             throw new NoUniqueNumbersLeftException("Error in number-generate service");
         }
     }

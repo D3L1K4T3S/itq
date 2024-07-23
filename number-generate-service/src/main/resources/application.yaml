@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: orders
+
+  data:
+    mongodb:
+      uri: ${MONGO-URI:mongodb://localhost:27017/orders}
+
+server:
+  port: 9090
+  address: localhost
+
+

@@ -1,5 +1,6 @@
 package org.example.numbergenerateservice.controllers;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.slf4j.SLF4JLogger;
 import org.example.numbergenerateservice.models.dto.response.NumberResponse;
 import org.example.numbergenerateservice.service.GeneratorNumberService;
@@ -11,12 +12,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
 @RequestMapping(ApiKeys.NUMBERS)
 public class GeneratorNumberController {
 
     private final GeneratorNumberService generatorNumberService;
-    private static final Logger log = LoggerFactory.getLogger(SLF4JLogger.class);
 
     public GeneratorNumberController(GeneratorNumberService generatorNumberService) {
         this.generatorNumberService = generatorNumberService;

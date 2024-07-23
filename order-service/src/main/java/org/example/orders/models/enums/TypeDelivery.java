@@ -1,4 +1,4 @@
-package org.example.orders.enums;
+package org.example.orders.models.enums;
 
 public enum TypeDelivery {
     STANDARD,

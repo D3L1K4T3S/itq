@@ -1,5 +1,6 @@
 package org.example.numbergenerateservice.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.slf4j.SLF4JLogger;
 import org.example.numbergenerateservice.exceptions.NoLeftNumberException;
 import org.example.numbergenerateservice.models.entity.NumberEntity;
@@ -18,6 +19,7 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 @Service
+@Slf4j
 public class GeneratorNumberServiceImpl implements GeneratorNumberService {
 
     private static final TimeUnit TIME_UNIT = TimeUnit.DAYS;
@@ -25,7 +27,7 @@ public class GeneratorNumberServiceImpl implements GeneratorNumberService {
     private static final Long MAX_NUMBER_PER_DAY = 90000L;
     private static final String NO_LEFT_NUMBER = "no left number";
 
-    private static final Logger log = LoggerFactory.getLogger(SLF4JLogger.class);
+    //private static final Logger log = LoggerFactory.getLogger(SLF4JLogger.class);
 
     private final NumberRepository numberRepository;
     private final SchedulerService scheduler;

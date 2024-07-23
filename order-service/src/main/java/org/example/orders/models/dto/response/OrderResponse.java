@@ -1,7 +1,14 @@
 package org.example.orders.models.dto.response;
 
+import lombok.Getter;
+import lombok.Setter;
+import org.example.orders.models.enums.TypeDelivery;
+import org.example.orders.models.enums.TypePayment;
+
 import java.util.Date;
 
+@Getter
+@Setter
 public class OrderResponse {
     private Long id;
     private String number;
@@ -10,18 +17,8 @@ public class OrderResponse {
     private Date orderDate;
     private String recipient;
     private String address;
-    private String payment;
-    private String delivery;
+    private TypePayment payment;
+    private TypeDelivery delivery;
 
-    public OrderResponse(Long id, String number, Long sum, Long scale, Date orderDate, String recipient, String address, String payment, String delivery) {
-        this.id = id;
-        this.number = number;
-        this.orderDate = orderDate;
-        this.recipient = recipient;
-        this.address = address;
-        this.payment = payment;
-        this.delivery = delivery;
-        this.sum = sum;
-        this.scale = scale;
-    }
+    public OrderResponse() {}
 }

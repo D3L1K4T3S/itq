@@ -1,8 +1,7 @@
 package org.example.orders.service;
 
 public interface NumberService {
-
-    String ERROR = "Internal Server Error";
+    String ERROR = "Internal error server";
 
     String getNumber();
 }

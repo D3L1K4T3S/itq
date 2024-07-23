@@ -1,0 +1,48 @@
+version: '3.9'
+
+services:
+  mongodb:
+    image: 'mongo:latest'
+    container_name: number-mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+  
+  number-generate-service:
+    build: ./number-generate-service/
+    restart: always
+    container_name: number-generate-service
+    ports:
+      - "9090:9090"
+    depends_on:
+      - mongodb
+    environment:
+      JAVA_OPTS: '-Xmx1024m'
+
+  database:
+    image: 'postgres:13'
+    container_name: database
+    restart: always
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=test
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+  
+  orders_service:
+    build: /Users/egor/Documents/itq/order-service
+    restart: always
+    container_name: order-service
+    ports:
+      - "9091:9091"
+    depends_on:
+      - number-generate-service
+      - database
+    environment:
+      JAVA_OPTS: '-Xmx1024m'
+
+volumes:
+  db-data: {}

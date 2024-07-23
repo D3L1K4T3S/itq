@@ -1,8 +1,11 @@
 package org.example.orders.service.impl;
 
 import org.example.orders.models.dto.request.CreateOrderRequest;
-import org.example.orders.models.dto.request.GetOrdersRequest;
-import org.example.orders.repository.ItemRepository;
+import org.example.orders.models.dto.request.GetOrdersByDateAnsSumRequest;
+import org.example.orders.models.dto.request.GetOrdersWithoutOrderBetweenDatesRequest;
+import org.example.orders.models.entity.OrderEntity;
+import org.example.orders.models.enums.TypeDelivery;
+import org.example.orders.models.enums.TypePayment;
 import org.example.orders.service.OrderValidatorService;
 import org.springframework.stereotype.Service;
 
@@ -15,35 +18,29 @@ public class OrderValidatorServiceImpl implements OrderValidatorService {
 
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    private final ItemRepository itemRepository;
-
-    public OrderValidatorServiceImpl(ItemRepository itemRepository) {
-        this.itemRepository = itemRepository;
+    @Override
+    public Boolean isValidCreateOrderRequest(CreateOrderRequest createOrderRequest) {
+        return isValidAdditionalInfo(createOrderRequest)
+                && createOrderRequest.getSum() > 0
+                && createOrderRequest.getScale() > 0;
     }
 
-    public Boolean isValidCreateOrderRequest(CreateOrderRequest createOrderRequest){
-        return isValidItemId(createOrderRequest.getItemId())
-                && isValidSum(createOrderRequest.getSum())
-                && isValidScale(createOrderRequest.getScale())
-                && isValidAdditionalInfo(createOrderRequest);
+    @Override
+    public Boolean isValidGetOrdersByDateAnsSumRequest(GetOrdersByDateAnsSumRequest orderRequest) {
+        return isValidDate(orderRequest.getCurrentDate())
+                && orderRequest.getSum() > 0
+                && orderRequest.getScale() > 0;
     }
 
-
-
-    public Boolean isValidGetOrdersRequest(GetOrdersRequest getOrdersRequest){
-        return true;
+    @Override
+    public Boolean isValidGetOrdersWithoutOrderBetweenDatesRequest(GetOrdersWithoutOrderBetweenDatesRequest orderRequest) {
+        return isValidDate(orderRequest.getDateBefore())
+                && isValidDate(orderRequest.getDateAfter())
+                && isValidOrder(orderRequest.getOrder());
     }
 
-    public Boolean isValidSum(Long sum){
-        return sum != 0;
-    }
-
-    public Boolean isValidScale(Long scale){
-        return scale >= 0;
-    }
-
-    private Boolean isValidItemId(Long itemId){
-        return itemRepository.isExistItemById(itemId);
+    private Boolean isValidOrder(OrderEntity order) {
+        return isValidNumber(order.getNumber());
     }
 
     private Boolean isValidAdditionalInfo(CreateOrderRequest createOrderRequest){
@@ -53,24 +50,27 @@ public class OrderValidatorServiceImpl implements OrderValidatorService {
                 && isValidDelivery(createOrderRequest.getDelivery());
     }
 
-    private Boolean isValidAddress(String address){
+    private Boolean isValidNumber(String number) {
+        return !number.isBlank() && (number.length() == 13 || number.length() == 12);
+    }
+
+    private Boolean isValidAddress(String address) {
         return !address.isBlank() && !address.isEmpty() && address.length() < 256;
     }
 
-    private Boolean isValidRecipient(String recipient){
+    private Boolean isValidRecipient(String recipient) {
         return !recipient.isBlank() && !recipient.isEmpty() && recipient.length() < 256;
     }
 
-    private Boolean isValidPayment(String payment){
-        return !payment.isBlank() && !payment.isEmpty() && payment.length() < 256;
+    private Boolean isValidPayment(TypePayment payment) {
+        return payment == TypePayment.ONLINE || payment == TypePayment.UPON_RECEIPT;
     }
 
-    private Boolean isValidDelivery(String delivery){
-        return !delivery.isBlank() && !delivery.isEmpty() && delivery.length() < 256;
+    private Boolean isValidDelivery(TypeDelivery delivery) {
+        return delivery == TypeDelivery.EXPRESS || delivery == TypeDelivery.INTERNATIONAL || delivery == TypeDelivery.STANDARD;
     }
 
-
-    public Boolean isValidDate(String date) {
+    private Boolean isValidDate(String date) {
         try {
             LocalDate.parse(date, FORMATTER);
             return true;
