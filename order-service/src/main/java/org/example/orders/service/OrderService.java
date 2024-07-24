@@ -8,7 +8,7 @@ import org.example.orders.models.dto.response.OrderResponse;
 
 public interface OrderService {
     void create(CreateOrderRequest createOrderRequest);
-    OrderResponse getById(Long id);
+    OrderResponse getById(Integer id);
     ListOrdersResponse getByDateAnsSum(GetOrdersByDateAnsSumRequest getOrdersRequest);
     ListOrdersResponse getWithoutOrderAndBetweenDates(GetOrdersWithoutOrderBetweenDatesRequest getOrdersRequest);
 }

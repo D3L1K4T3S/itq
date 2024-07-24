@@ -11,5 +11,5 @@ import java.util.Date;
 public class GetOrdersWithoutOrderBetweenDatesRequest {
     private String dateBefore;
     private String dateAfter;
-    private OrderEntity order;
+    private String number;
 }

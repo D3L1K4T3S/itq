@@ -1,0 +1,30 @@
+databaseChangeLog:
+  - changeSet:
+      id: load_orders
+      author: Egor Zhelagin
+      changes:
+        - loadData:
+            file: ./data/orders.csv
+            relativeToChangelogFile: true
+            separator: ","
+            tableName: orders
+
+      rollback:
+        - sqlFile:
+            path: ./sql/rollback-orders-0.0.2.sql
+            relativeToChangelogFile: true
+
+  - changeSet:
+      id: load_items
+      author: Egor Zhelagin
+      changes:
+        - loadData:
+            file: ./data/items.csv
+            relativeToChangelogFile: true
+            separator: ","
+            tableName: items
+
+      rollback:
+        - sqlFile:
+            path: ./sql/rollback-items-0.0.2.sql
+            relativeToChangelogFile: true

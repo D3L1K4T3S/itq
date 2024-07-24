@@ -3,7 +3,7 @@ info:
   title: Orders Service API
   version: "1.0"
 servers:
-  - url: https://localhost:80/v1/
+  - url: https://localhost:9090/v1/
 
 components:
   schemas:
@@ -12,13 +12,12 @@ components:
       type: object
       properties:
         error:
+          description: "error message"
           type: string
 
     order:
       description: "Заказ"
       type: object
-      required:
-        - id
       properties:
         id:
           description: "id Заказа в БД"
@@ -49,27 +48,169 @@ components:
           description: "Тип доставки"
           type: string
 
-paths:
-  /:
-    get:
-      description: "Проверка работы сервиса number_generated"
-      responses:
-        200:
-          description: "Код получен"
+    CreateOrderRequest:
+      type: object
+      properties:
+        sum:
+          type: integer
+          format: int64
+        scale:
+          type: integer
+          format: int64
+        recipient:
+          type: string
+        address:
+          type: string
+        payment:
+          type: string
+        delivery:
+          type: string
+      required:
+        - sum
+        - scale
+        - recipient
+        - address
+        - payment
+        - delivery
 
-  /{order_id}:
+    OrderResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        number:
+          type: string
+        sum:
+          type: integer
+          format: int64
+        scale:
+          type: integer
+          format: int64
+        orderDate:
+          type: string
+          format: date-time
+        recipient:
+          type: string
+        address:
+          type: string
+        payment:
+          type: string
+        delivery:
+          type: string
+
+    ListOrdersResponse:
+      type: object
+      properties:
+        orders:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderResponse'
+paths:
+  /{id}:
     get:
-      description: "Получение ордера по Id"
+      summary: Получить заказ по идентификатору
+      operationId: getOrderById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Идентификатор заказа
+          schema:
+            type: integer
+            format: int64
       responses:
-        200:
-          description: "Информация о заказе"
+        '200':
+          description: Успешный ответ с деталями заказа
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/order"
-        404:
-          description: "С таким id ордера не существует"
+                $ref: '#/components/schemas/OrderResponse'
+        '404':
+          description: Заказ не найден
+
+  /create:
+    post:
+      summary: Создать новый заказ
+      operationId: createOrder
+      requestBody:
+        description: Информация о новом заказе
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrderRequest'
+      responses:
+        '200':
+          description: Заказ успешно создан
+        '404':
+          description: Ошибка в запросе
+
+  /get_by-date-and-sum:
+    get:
+      summary: Получить заказы по дате и сумме
+      operationId: getOrdersByDateAndSum
+      parameters:
+        - name: currentDate
+          in: query
+          required: true
+          description: Текущая дата
+          schema:
+            type: string
+            format: date
+        - name: sum
+          in: query
+          required: true
+          description: Сумма заказа
+          schema:
+            type: integer
+            format: int64
+        - name: scale
+          in: query
+          required: true
+          description: Точность
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Успешный ответ со списком заказов
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ListOrdersResponse'
+        '404':
+          description: Ошибка в запросе
+
+  /get_without-order-between-dates:
+    get:
+      description: Получить заказы без заказа между датами
+      parameters:
+        - name: dateBefore
+          in: query
+          required: true
+          description: Дата до
+          schema:
+            type: string
+            format: date
+        - name: dateAfter
+          in: query
+          required: true
+          description: Дата после
+          schema:
+            type: string
+            format: date
+        - name: order
+          in: query
+          required: true
+          description: Заказа
+          schema:
+            $ref: "#/components/schemas/order"
+      responses:
+        '200':
+          description: Успешный ответ со списком заказов
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListOrdersResponse'
+        '404':
+          description: Ошибка в запросе

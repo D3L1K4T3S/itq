@@ -5,7 +5,9 @@ public class ApiKeys {
 
     public static final String ORDERS = V1 + "/orders";
 
-    public static final String PATH_ID = "/{id}";
+    public static final String ORDER = "/order";
+
+    public static final String PATH_ID = ORDER + "/{id}";
 
     public static final String PATH_CREATE = "/create";
 

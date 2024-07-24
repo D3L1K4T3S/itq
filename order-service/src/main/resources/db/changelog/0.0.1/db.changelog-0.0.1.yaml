@@ -1,39 +1,111 @@
 databaseChangeLog:
   - changeSet:
-      id: database_create
-      author: Zhelagin Egor
+      id: create_orders
+      author: Egor Zhelagin
       changes:
         - createTable:
             tableName: orders
             columns:
               - column:
                   name: id
-                  type: int4
-                  autoIncrement: true
+                  type: serial
                   constraints:
-                    nullable: false
                     primaryKey: true
+                    nullable: false
               - column:
                   name: number
                   type: varchar(255)
                   constraints:
                     nullable: false
-                    unique: true
+              - column:
+                  name: sum
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: scale
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: order_date
+                  type: date
+                  defaultValueComputed: "NOW()"
+              - column:
+                  name: recipient
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: address
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: payment
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: delivery
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+      rollback:
+        - sqlFile:
+            path: ./sql/rollback-orders-0.0.1.sql
+            relativeToChangelogFile: true
 
+  - changeSet:
+      id: create_items
+      author: Egor Zhelagin
+      changes:
         - createTable:
             tableName: items
             columns:
               - column:
                   name: id
-                  type: int4
-                  autoIncrement: true
+                  type: serial
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: article
+                  type: bigint
                   constraints:
                     nullable: false
-                    primaryKey: true
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: count
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: price
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: scale
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: order_id
+                  type: bigint
 
         - addForeignKeyConstraint:
-            constraintName: foreign_key_item
-            baseTableName: orders
-            baseColumnNames: item_id
-            referencedTableName: items
+            constraintName: foreign_key_items
+            baseTableName: items
+            baseColumnNames: order_id
+            referencedTableName: orders
             referencedColumnNames: id
+
+      rollback:
+        - sqlFile:
+            path: ./sql/rollback-items-0.0.1.sql
+            relativeToChangelogFile: true

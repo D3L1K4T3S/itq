@@ -1,0 +1,22 @@
+databaseChangeLog:
+  - changeSet:
+      id: update_constraints_orders
+      author: Egor Zhelagin
+      changes:
+        - sqlFile:
+            path: ./sql/update_constraints_orders.sql
+            relativeToChangelogFile: true
+            encoding: UTF-8
+            endDelimiter: ";"
+            splitStatements: true
+
+  - changeSet:
+      id: update_constraints_items
+      author: Egor Zhelagin
+      changes:
+        - sqlFile:
+            path: ./sql/update_constraints_items.sql
+            relativeToChangelogFile: true
+            encoding: UTF-8
+            endDelimiter: ";"
+            splitStatements: true

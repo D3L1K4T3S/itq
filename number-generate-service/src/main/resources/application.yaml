@@ -4,10 +4,11 @@ spring:
 
   data:
     mongodb:
-      uri: ${MONGO-URI:mongodb://localhost:27017/orders}
+      host: mongodb
+      port: 27017
+      database: numbers
 
 server:
   port: 9090
-  address: localhost
 
 

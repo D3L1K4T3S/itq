@@ -10,12 +10,8 @@ import java.time.LocalDateTime;
 public class ErrorResponse {
     
     private String message;
-    private LocalDateTime timestamp;
     private String path;
 
-    public ErrorResponse(String message) {
-        this.message = message;
-    }
 
     public ErrorResponse() {}
 
@@ -24,14 +20,8 @@ public class ErrorResponse {
     }
 
     public static class Builder {
-        private LocalDateTime timestamp;
         private String message;
         private String path;
-
-        public Builder timestamp(LocalDateTime timestamp) {
-            this.timestamp = timestamp;
-            return this;
-        }
 
         public Builder message(String message) {
             this.message = message;
@@ -45,7 +35,6 @@ public class ErrorResponse {
 
         public ErrorResponse build() {
             ErrorResponse response = new ErrorResponse();
-            response.timestamp = this.timestamp;
             response.message = this.message;
             response.path = this.path;
             return response;

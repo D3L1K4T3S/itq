@@ -16,7 +16,7 @@ public class NumberServiceImpl implements NumberService {
 
     private final RestClient restClient;
 
-    private final static String URL = "http://localhost:9090/v1/numbers/number";
+    private final static String URL = "http://number-generate-service:9090/v1/numbers/number";
 
     public NumberServiceImpl(RestClient restClient) {
         this.restClient = restClient;

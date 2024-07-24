@@ -1,6 +1,7 @@
 package org.example.orders.controllers;
 
 import io.swagger.v3.oas.annotations.Parameter;
+import lombok.extern.slf4j.Slf4j;
 import org.example.orders.models.dto.request.GetOrdersWithoutOrderBetweenDatesRequest;
 import org.example.orders.models.dto.response.ListOrdersResponse;
 import org.example.orders.models.dto.response.OrderResponse;
@@ -12,26 +13,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequestMapping(ApiKeys.ORDERS)
 public class OrderController {
 
     private final OrderService orderService;
-    private final NumberService numberService;
 
-    public OrderController(OrderService orderService, NumberService numberService) {
+    public OrderController(OrderService orderService) {
         this.orderService = orderService;
-        this.numberService = numberService;
-    }
-
-    @GetMapping("/")
-    public ResponseEntity<String> g() {
-        String response = numberService.getNumber();
-        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping(ApiKeys.PATH_ID)
-    public ResponseEntity<OrderResponse> getById(@Parameter(name = "id", required = true)  @PathVariable("id") Long id) {
+    public ResponseEntity<OrderResponse> getById(@Parameter(name = "id", required = true)  @PathVariable("id") Integer id) {
         OrderResponse response = orderService.getById(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

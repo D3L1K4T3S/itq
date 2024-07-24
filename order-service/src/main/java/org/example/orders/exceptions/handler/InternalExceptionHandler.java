@@ -20,7 +20,7 @@ public class InternalExceptionHandler {
 
     @ExceptionHandler(ModelException.class)
     public ResponseEntity<ErrorResponse> handleModelException(ModelException exception, HttpServletRequest request) {
-        return new ResponseEntity<>(exceptionFactory.createErrorResponse(exception, request.getServletPath()), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(exceptionFactory.createErrorResponse(exception, request.getServletPath()), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler

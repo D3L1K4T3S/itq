@@ -26,6 +26,7 @@ public class OrderMapper {
         OrderResponse response = new OrderResponse();
         response.setId(order.getId());
         response.setNumber(order.getNumber());
+        response.setOrderDate(order.getOrderDate());
         response.setSum(order.getSum());
         response.setScale(order.getScale());
         response.setRecipient(order.getRecipient());

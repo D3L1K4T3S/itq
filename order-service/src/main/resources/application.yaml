@@ -2,16 +2,15 @@ spring:
   application:
     name: orders
   datasource:
-    url: ${POSTGRES_URL:jdbc:postgresql://database:5432/orders}
-    username: ${POSTGRES_USER:root}
-    password: ${POSTGRES_PASSWORD:root}
+    url: jdbc:postgresql://database:5432/products
+    username: admin
+    password: admin
     driver-class-name: org.postgresql.Driver
 
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.yaml
-    enabled: false
+    enabled: true
     liquibase-schema: public
 
 server:
   port: 9091
-  address: localhost

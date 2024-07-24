@@ -55,12 +55,14 @@ public class OrderServiceImpl implements OrderService {
             log.error("No left number in generate number service");
             throw new NoUniqueNumbersLeftException(numberService.ERROR);
         }
-        orderRepository.save(orderMapper.toEntity(createOrderRequest));
+        OrderEntity order = orderMapper.toEntity(createOrderRequest);
+        order.setNumber(number);
+        orderRepository.save(order);
         log.info("Successfully created order with number {}", number);
     }
 
     @Override
-    public OrderResponse getById(Long id){
+    public OrderResponse getById(Integer id){
         return orderMapper.toResponse(orderRepository.findById(id));
     }
 
@@ -89,7 +91,7 @@ public class OrderServiceImpl implements OrderService {
         }
         log.info("Valid request for get orders without order");
         List<OrderEntity> listOrderEntity = orderRepository.findWithoutOrderAndBetweenDate(
-                getOrdersRequest.getOrder().getNumber(),
+                getOrdersRequest.getNumber(),
                 dateParse.getDateFromString(getOrdersRequest.getDateBefore()),
                 dateParse.getDateFromString(getOrdersRequest.getDateAfter())
         );

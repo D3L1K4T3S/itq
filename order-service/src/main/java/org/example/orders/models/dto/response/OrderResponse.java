@@ -10,7 +10,7 @@ import java.util.Date;
 @Getter
 @Setter
 public class OrderResponse {
-    private Long id;
+    private Integer id;
     private String number;
     private Long sum;
     private Long scale;

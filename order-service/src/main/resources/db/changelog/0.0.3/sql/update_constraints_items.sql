@@ -1,0 +1,1 @@
+select setval('items_id_seq', (select max(id) from items));

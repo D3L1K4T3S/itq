@@ -36,14 +36,10 @@ public class OrderValidatorServiceImpl implements OrderValidatorService {
     public Boolean isValidGetOrdersWithoutOrderBetweenDatesRequest(GetOrdersWithoutOrderBetweenDatesRequest orderRequest) {
         return isValidDate(orderRequest.getDateBefore())
                 && isValidDate(orderRequest.getDateAfter())
-                && isValidOrder(orderRequest.getOrder());
+                && isValidNumber(orderRequest.getNumber());
     }
 
-    private Boolean isValidOrder(OrderEntity order) {
-        return isValidNumber(order.getNumber());
-    }
-
-    private Boolean isValidAdditionalInfo(CreateOrderRequest createOrderRequest){
+    private Boolean isValidAdditionalInfo(CreateOrderRequest createOrderRequest) {
         return isValidAddress(createOrderRequest.getAddress())
                 && isValidRecipient(createOrderRequest.getRecipient())
                 && isValidPayment(createOrderRequest.getPayment())
@@ -51,7 +47,7 @@ public class OrderValidatorServiceImpl implements OrderValidatorService {
     }
 
     private Boolean isValidNumber(String number) {
-        return !number.isBlank() && (number.length() == 13 || number.length() == 12);
+        return !number.isBlank() && (number.length() <= 15);
     }
 
     private Boolean isValidAddress(String address) {
